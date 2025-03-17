@@ -1,0 +1,131 @@
+﻿<Window x:Class="ZendureCloudDisconnector.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZendureCloudDisconnector" xmlns:Extentions="clr-namespace:ZendureCloudDisconnector.Converter"
+        mc:Ignorable="d"
+        Title="Zendure Cloud Disconnector" Height="430" Width="800" 
+        DataContext="MainViewModel">
+    <Window.Resources>
+        <Extentions:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+        <Extentions:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">
+            <Button IsEnabled="{Binding Path=SearchInactive}" Content="Discover Zendure Devices" Click="StartWatcherClick"></Button>
+
+            <Separator Margin="5,0,0,0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+            <Button Margin="5,0,0,0" Content="Donate via Paypal" Click="Donate_Click"></Button>
+            <Button Margin="5,0,0,0" Content="Readme" Click="Readme_Click"></Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <StackPanel>
+                <Label FontWeight="Bold" FontSize="16">Discovered devices</Label>
+                <DataGrid x:Name="DataGrid"
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding Path=Devices}" 
+                    SelectedItem="{Binding Path=SelectedBluetoothLEDevice, Mode=OneWayToSource}"
+                    Margin="5"
+                    > 
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding DeviceType}" Width="170" />
+                        <DataGridTextColumn Header="Bluetooth address" Binding="{Binding BluetoothLEDevice.BluetoothAddress}" Width="150"  />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>            
+
+            <StackPanel Margin="5" Width="240">
+                <Label FontWeight="Bold" FontSize="16">Connection</Label>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Selected Device:"></Label>
+                    <Label FontWeight="Bold" Content="{Binding Path=SelectedBluetoothLEDevice.DeviceType}"></Label>
+                </StackPanel>
+
+                <Button Margin="0,10,0,10" IsEnabled="{Binding SelectedBluetoothLEDevice, Converter={StaticResource NullToBooleanConverter}}" Content="Get Telemetry" Click="StartNotifyClick"></Button>
+
+                <Separator ></Separator>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Paired:"></Label>
+                    <Label FontWeight="Bold" Content="{Binding Path=Paired}"></Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,-10,0,0">
+                    <Label Content="BLE Services:"></Label>
+                    <Label FontWeight="Bold" Content="{Binding Path=Paired}"></Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,-10,0,0">
+                    <Label Content="GATT Charactaristics:"></Label>
+                    <Label FontWeight="Bold" Content="{Binding Path=Paired}"></Label>
+                </StackPanel>
+
+                <Separator ></Separator>
+
+                <Label FontWeight="Bold" FontSize="16">Telemetry</Label>
+
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <Label>Device Id:</Label>
+                    <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="{Binding ZendureBLEDeviceProperties.deviceId}"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,-10,0,0">
+                    <Label>SOC:</Label>
+                    <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="{Binding ZendureBLEDeviceProperties.electricLevel}"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,-10,0,0">
+                    <Label>SolarInputPower:</Label>
+                    <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="{Binding ZendureBLEDeviceProperties.solarInputPower}"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,-10,0,0">
+                    <Label>PackInputPower:</Label>
+                    <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="{Binding ZendureBLEDeviceProperties.packInputPower}"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,-10,0,0">
+                    <Label>OutputPackPower:</Label>
+                    <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="{Binding ZendureBLEDeviceProperties.outputPackPower}"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="5" Visibility="{Binding ZendureBLEDeviceProperties, Converter={StaticResource NullToVisibilityConverter}}">
+                <Label FontWeight="Bold" FontSize="16">Override MQTT server</Label>
+
+                <Label>WiFi SSID:</Label>
+                <TextBox Text="{Binding Path=WifiName}" IsEnabled="{Binding SelectedBluetoothLEDevice, Converter={StaticResource NullToBooleanConverter}}"></TextBox>
+
+                <Label>WiFi Password:</Label>
+                <TextBox Text="{Binding Path=WifiPassword}" IsEnabled="{Binding SelectedBluetoothLEDevice, Converter={StaticResource NullToBooleanConverter}}"></TextBox>
+
+                <Label>MQTT Server URL/IP:</Label>
+                <TextBox Text="{Binding Path=MqttServer}" IsEnabled="{Binding SelectedBluetoothLEDevice, Converter={StaticResource NullToBooleanConverter}}"></TextBox>
+
+                <TextBlock Margin="0,5,0,0"  Foreground="Red" TextWrapping="WrapWithOverflow" Width="200">
+                    Note: You have to use the default MQTT Port (1883) without authentication on your MQTT server!
+                </TextBlock>
+                <Button Margin="0,10,0,0" Content="Connect to (local) MQTT" Click="DisconnectClick"></Button>
+
+                <Button Margin="0,10,0,0" Content="Reconnect to Zendure Cloud" Click="ReconnectClick"></Button>
+                
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Label Foreground="red">You use this tool on your own risk! I'm not responsible for bricked devices!</Label>
+            <Label>© 2025 Peter Frommert</Label>
+        </StackPanel>
+        
+    </Grid>
+</Window>
