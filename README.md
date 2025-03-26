@@ -1,5 +1,7 @@
 # Zendure Cloud Disconnector
 
+[![Github All Releases](https://img.shields.io/github/downloads/nograx/zendure-cloud-disconnector/total.svg)]()
+
 This project is a simple tool to modify the internal MQTT server url/ip from Zendure SolarFlow devices via Bluetooth LE.
 
 ![Zendure Cloud Disconnector](https://github.com/nograx/zendure-cloud-disconnector/blob/main/App%20Screenshot.png)
@@ -9,6 +11,10 @@ This project is a simple tool to modify the internal MQTT server url/ip from Zen
 If you want to support my work, feel free to donate via the folowwing Paypal ME link. THANK YOU!<br />
 
 [![Donate](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/paypalme/PeterFrommert)
+
+## Download
+
+You can download a compiled Version under "Releases" on the right side. You have to install a runtime version of dotnet core 3.1 in order to run the program.
 
 ## Features
 
