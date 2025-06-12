@@ -20,7 +20,9 @@ You can download a compiled Version under "Releases" on the right side. You have
 
 You can use this simple tool to connect to your Zendure device (HUB1200, HUB 2000, Hyper 2000, AIO 2400 and Ace 1500) via Bluetooth LE. You can then get basic telemetry data from the device.
 
-The main goal of this tool is to modify the MQTT server address of the device to sent all data to your own MQTT server and also read commands from it. After modifying the MQTT server you have to reboot the device (power off and power on again) for these changes to take effect.
+The main goal of this tool is to modify the MQTT server address of the device to sent all data to your own MQTT server and also read commands from it. 
+
+:exclamation:<b>After modifying the MQTT server you have to reboot the device (power off and power on again) for these changes to take effect.</b>:exclamation:
 
 The device will then sent it's MQTT data to your server (in an somehow unusual way). There will be an JSON string in /productKey/deviceKey/properties/report which you have to deserialize in a script with the smart home system you like. It's also possible to gain full control of the device. You have to subscribe to iot/productId/deviceId/properties/write and then sent a payload like this "{"properties": { "outputLimit": 200 }}".
 
