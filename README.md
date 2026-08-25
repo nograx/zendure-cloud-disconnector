@@ -34,6 +34,10 @@ Note: You are still able to connect to the device with the official app via blue
 
 You can also revert the changes to it's default MQTT server.
 
+## Alternative
+
+You can also use this Android version from manganate006: [zendure-cloud-disconnect](https://github.com/manganate006/zendure-cloud-disconnect)
+
 ## Credits
 
 Credits goes to https://github.com/reinhard-brandstaedter/solarflow which helped a lot with the knowledge about the MQTT server from Zendure! Thanks!
